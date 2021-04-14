@@ -222,7 +222,6 @@ export default class Tesselator {
     // They do sometimes but not always, should print out
     // what is being spat out in loaders.gl and compare
     // to here...
-    this.vertexCount = indexStarts[indexStarts.length - 1];
     if (this.data.triangles) {
       // this.attributes.indices.length is not equal to
       // this.data.triangles.length, but this is because
@@ -230,6 +229,9 @@ export default class Tesselator {
       // polygon-tesselator.js:49
       // Try to override (nothing seems to explode...)
       this.attributes.indices = new Uint32Array(this.data.triangles.value);
+      this.indexStarts = this.data.triangleIndices.value;
     }
+
+    this.vertexCount = this.indexStarts[this.indexStarts.length - 1];
   }
 }
