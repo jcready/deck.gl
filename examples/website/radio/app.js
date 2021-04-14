@@ -175,12 +175,15 @@ export default function App({
           renderSubLayers: props => {
             return new GeoJsonLayer(props, {
               lineWidthMinPixels: 2,
-              // getLineColor: f => {
-              //   const {type, frequency} = stationMap[f.properties.callSign];
-              //   return type === 'AM' ? amColorScale(frequency) : fmColorScale(frequency);
-              // },
-              getLineColor: [255, 0, 0, 100],
-              getFillColor: [255, 0, 255, 30]
+              getLineColor: f => {
+                const info = stationMap[f.properties.callSign];
+                if (info === undefined) {
+                  return [0, 0, 0, 100];
+                }
+                const {type, frequency} = stationMap[f.properties.callSign];
+                return type === 'AM' ? amColorScale(frequency) : fmColorScale(frequency);
+              },
+              getFillColor: [255, 0, 255, 80]
             });
           }
         }),
