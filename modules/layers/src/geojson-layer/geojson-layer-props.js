@@ -94,7 +94,6 @@ export function createLayerPropsFromBinary(geojsonBinary, uniqueIdProperty, enco
   };
   layerProps.polygons._normalize = false;
   if (polygons.triangles) {
-    console.log('TRIANGLES');
     layerProps.polygons.data.triangles = polygons.triangles;
   }
 

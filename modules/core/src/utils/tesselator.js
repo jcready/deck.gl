@@ -224,15 +224,6 @@ export default class Tesselator {
     // to here...
     this.vertexCount = indexStarts[indexStarts.length - 1];
     if (this.data.triangles) {
-      console.log(
-        'DECK.GL Triangles:',
-        this.data.triangles.value.length,
-        'getPolygon:',
-        this.data.attributes.getPolygon.value.length,
-        'vertices:',
-        this.vertexCount
-      );
-
       // this.attributes.indices.length is not equal to
       // this.data.triangles.length, but this is because
       // the buffer is being grown and then subarrayed in

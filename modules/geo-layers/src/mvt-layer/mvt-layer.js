@@ -16,7 +16,8 @@ const defaultProps = {
   uniqueIdProperty: {type: 'string', value: ''},
   highlightedFeatureId: null,
   loaders: [MVTLoader],
-  binary: false
+  binary: false,
+  triangulate: false
 };
 
 async function fetchTileJSON(url) {
