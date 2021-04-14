@@ -97,6 +97,9 @@ export default class MVTLayer extends TileLayer {
       return Promise.reject('Invalid URL');
     }
     let options = this.getLoadOptions();
+    let gis = {};
+    if (this.props.binary) { gis.format = 'binary' }
+    if (this.props.triangulate) { gis.triangulate = true }
     options = {
       ...options,
       mvt: {
@@ -108,7 +111,7 @@ export default class MVTLayer extends TileLayer {
         // Set worker to null to skip web workers
         // workerUrl: null
       },
-      gis: this.props.binary ? {format: 'binary'} : {}
+      gis
     };
     return load(url, this.props.loaders[0], options);
   }
