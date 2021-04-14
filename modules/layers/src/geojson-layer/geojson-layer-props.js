@@ -93,6 +93,10 @@ export function createLayerPropsFromBinary(geojsonBinary, uniqueIdProperty, enco
     featureIds: polygons.featureIds
   };
   layerProps.polygons._normalize = false;
+  if (polygons.triangles) {
+    console.log('TRIANGLES');
+    layerProps.polygons.data.triangles = polygons.triangles;
+  }
 
   layerProps.polygonsOutline.data = {
     length: polygons.primitivePolygonIndices.value.length,

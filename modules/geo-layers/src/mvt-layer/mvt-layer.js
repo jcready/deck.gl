@@ -97,9 +97,13 @@ export default class MVTLayer extends TileLayer {
       return Promise.reject('Invalid URL');
     }
     let options = this.getLoadOptions();
-    let gis = {};
-    if (this.props.binary) { gis.format = 'binary' }
-    if (this.props.triangulate) { gis.triangulate = true }
+    const gis = {};
+    if (this.props.binary) {
+      gis.format = 'binary';
+    }
+    if (this.props.triangulate) {
+      gis.triangulate = true;
+    }
     options = {
       ...options,
       mvt: {
