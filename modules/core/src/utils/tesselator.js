@@ -238,7 +238,7 @@ export default class Tesselator {
       // the buffer is being grown and then subarrayed in
       // polygon-tesselator.js:49
       // Try to override (nothing seems to explode...)
-      this.attributes.indices = new Uint32Array(this.data.triangles);
+      this.attributes.indices = new Uint32Array(this.data.triangles.value);
     }
   }
 }
