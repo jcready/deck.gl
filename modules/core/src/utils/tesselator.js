@@ -216,6 +216,29 @@ export default class Tesselator {
       endRow
     );
 
+    // Should be able to override this.attributes.indices
+    // with this.data.triangles.value but they don't quite
+    // match...
+    // They do sometimes but not always, should print out
+    // what is being spat out in loaders.gl and compare
+    // to here...
     this.vertexCount = indexStarts[indexStarts.length - 1];
+    if (this.data.triangles) {
+      console.log(
+        'DECK.GL Triangles:',
+        this.data.triangles.value.length,
+        'getPolygon:',
+        this.data.attributes.getPolygon.value.length,
+        'vertices:',
+        this.vertexCount
+      );
+
+      // this.attributes.indices.length is not equal to
+      // this.data.triangles.length, but this is because
+      // the buffer is being grown and then subarrayed in
+      // polygon-tesselator.js:49
+      // Try to override (nothing seems to explode...)
+      this.attributes.indices = new Uint32Array(this.data.triangles);
+    }
   }
 }
