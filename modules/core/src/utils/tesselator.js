@@ -222,7 +222,7 @@ export default class Tesselator {
     // They do sometimes but not always, should print out
     // what is being spat out in loaders.gl and compare
     // to here...
-    if (this.data.triangles) {
+    if (this.data.triangles && this.data.triangles.value.length > 0) {
       // this.attributes.indices.length is not equal to
       // this.data.triangles.length, but this is because
       // the buffer is being grown and then subarrayed in
