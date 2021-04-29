@@ -57,6 +57,7 @@ export default class Tesselator {
     this.getGeometry = getGeometry;
     this.positionSize =
       (geometryBuffer && geometryBuffer.size) || (positionFormat === 'XY' ? 2 : 3);
+    assert(1 < this.positionSize && this.positionSize < 4);
     this.buffers = buffers;
     this.normalize = normalize;
 
