@@ -112,9 +112,7 @@ export default class PolygonTesselator extends Tesselator {
         context.indexStart = this.indexStarts[context.geometryIndex + 1];
       }
     } else {
-      if (!this.data.triangles) {
-        this._updateIndices(polygon, context);
-      }
+      this._updateIndices(polygon, context);
       this._updatePositions(polygon, context);
       this._updateVertexValid(polygon, context);
     }
