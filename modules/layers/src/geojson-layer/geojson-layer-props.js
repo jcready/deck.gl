@@ -94,8 +94,7 @@ export function createLayerPropsFromBinary(geojsonBinary, uniqueIdProperty, enco
   };
   layerProps.polygons._normalize = false;
   if (polygons.triangles) {
-    layerProps.polygons.data.triangles = polygons.triangles;
-    layerProps.polygons.data.triangleIndices = polygons.triangleIndices;
+    layerProps.polygons.data.attributes.indices = new Uint32Array(polygons.triangles.value);
   }
 
   layerProps.polygonsOutline.data = {
