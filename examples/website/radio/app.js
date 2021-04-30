@@ -13,7 +13,6 @@ import {CSVLoader} from '@loaders.gl/csv';
 
 import {scaleSqrt, scaleLinear} from 'd3-scale';
 import {GeoJsonLayer} from '@deck.gl/layers';
-import {colorToRGBArray} from './format-utils';
 
 import SearchBar from './search-bar';
 
@@ -22,8 +21,7 @@ const DATA_URL_BASE = 'https://raw.githubusercontent.com/visgl/deck.gl-data/mast
 const DATA_URL = {
   STATIONS: `${DATA_URL_BASE}/stations.tsv`,
   COVERAGE: `${DATA_URL_BASE}/coverage.csv`,
-  //CONTOURS: `${DATA_URL_BASE}/service-contour/{z}/{x}-{y}.mvt`
-  CONTOURS: `http://localhost:9999/tiles/{z}/{x}/{y}.mvt`
+  CONTOURS: `${DATA_URL_BASE}/service-contour/{z}/{x}-{y}.mvt`
 };
 
 const mainView = new MapView({id: 'main', controller: true});
@@ -77,7 +75,6 @@ function layerFilter({layer, viewport}) {
 }
 
 function getTooltipText(stationMap, {object}) {
-  return null;
   if (!object) {
     return null;
   }
@@ -163,10 +160,8 @@ export default function App({
     ? [
         new MVTLayer({
           id: 'service-contours',
-          //binary: true,
-          //triangulate: true,
           data: DATA_URL.CONTOURS,
-          maxZoom: 4,
+          maxZoom: 8,
           onTileError: () => {},
           pickable: true,
           autoHighlight: true,
@@ -178,31 +173,34 @@ export default function App({
           renderSubLayers: props => {
             return new GeoJsonLayer(props, {
               lineWidthMinPixels: 2,
-              getLineColor: f => colorToRGBArray(f.properties.stroke),
-              getFillColor: f => colorToRGBArray(f.properties.fill)
+              getLineColor: f => {
+                const {type, frequency} = stationMap[f.properties.callSign];
+                return type === 'AM' ? amColorScale(frequency) : fmColorScale(frequency);
+              },
+              getFillColor: [255, 255, 255, 0]
             });
           }
         }),
 
-        // new ScatterplotLayer({
-        //   id: 'stations',
-        //   data,
-        //   getPosition: d => [d.longitude, d.latitude],
-        //   getColor: [40, 40, 40, 128],
-        //   getRadius: 20,
-        //   radiusMinPixels: 2
-        // }),
+        new ScatterplotLayer({
+          id: 'stations',
+          data,
+          getPosition: d => [d.longitude, d.latitude],
+          getColor: [40, 40, 40, 128],
+          getRadius: 20,
+          radiusMinPixels: 2
+        }),
 
-        // new H3HexagonLayer({
-        //   id: 'coverage',
-        //   data: DATA_URL.COVERAGE,
-        //   getHexagon: d => d.hex,
-        //   stroked: false,
-        //   extruded: false,
-        //   getFillColor: d => coverageColorScale(d.count),
+        new H3HexagonLayer({
+          id: 'coverage',
+          data: DATA_URL.COVERAGE,
+          getHexagon: d => d.hex,
+          stroked: false,
+          extruded: false,
+          getFillColor: d => coverageColorScale(d.count),
 
-        //   loaders: [CSVLoader]
-        // }),
+          loaders: [CSVLoader]
+        }),
 
         new PathLayer({
           id: 'viewport-bounds',
