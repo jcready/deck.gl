@@ -57,7 +57,7 @@ export default class Tesselator {
     this.getGeometry = getGeometry;
     this.positionSize =
       (geometryBuffer && geometryBuffer.size) || (positionFormat === 'XY' ? 2 : 3);
-    assert(1 < this.positionSize && this.positionSize < 4);
+    assert(this.positionSize > 1 && this.positionSize < 4);
     this.buffers = buffers;
     this.normalize = normalize;
 
@@ -217,6 +217,6 @@ export default class Tesselator {
       endRow
     );
 
-    this.vertexCount = this.indexStarts[this.indexStarts.length - 1];
+    this.vertexCount = indexStarts[indexStarts.length - 1];
   }
 }
